@@ -246,12 +246,21 @@
 (function () {
   var ENDPOINT = 'https://drqwmzkxqhrrrgsphgww.supabase.co/rest/v1/waitlist';
   var KEY = 'sb_publishable_37MnRWQcG_LLz7AbQ9tpxg__u-ZsW_d'; // public anon key — RLS makes the list write-only
+  var TESTFLIGHT_URL = ''; // paste your testflight.apple.com/join/XXXX link → signups get instant beta access
   var form = document.getElementById('waitForm');
   var input = document.getElementById('waitEmail');
   var msg = document.getElementById('waitMsg');
   if (!form) return;
   function say(text, warn) { msg.textContent = text; msg.style.color = warn ? 'var(--rose)' : ''; }
-  function done() { form.style.display = 'none'; say("You're on the list — we'll email you the moment Fond is live. 💛", true); }
+  function done() {
+    form.style.display = 'none';
+    msg.style.color = 'var(--rose)';
+    if (TESTFLIGHT_URL) {
+      msg.innerHTML = "You're on the list! 💛 Want in now? <a href='" + TESTFLIGHT_URL + "' style='color:var(--rose);font-weight:700'>Join the TestFlight beta →</a>";
+    } else {
+      msg.textContent = "You're on the list — we'll email you the moment Fond is live. 💛";
+    }
+  }
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var email = (input.value || '').trim();
